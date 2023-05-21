@@ -27,7 +27,7 @@ const function Form (props) {
           Username:
           <input
             type="text"
-            value={state.value}
+            value={value}
             onChange={handleChange}
           />
         </label>
