@@ -122,7 +122,9 @@ En React vous écrirez la syntaxe suivante :
 function Form (props) {
 const [value, setValue] = React.useState("devReact");
 
-// ...
+const handleChange = (event) => {
+  setValue(event.target.value);
+};
 
 // render
   return(

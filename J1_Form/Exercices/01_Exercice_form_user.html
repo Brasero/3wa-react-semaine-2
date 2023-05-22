@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+
+    <!-- babel => compilation du JSX -->
+    <script src="https://unpkg.com/@babel/standalone@7.20.15/babel.min.js"></script>
+    <style>
+      .heading {
+        color: purple;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      function Users(props) {
+        return (
+          <ul>
+            {props.users.map((user, i) => (
+              <li key={i}>{user}</li>
+            ))}
+          </ul>
+        );
+      }
+
+      function Form() {
+        const [username, setUsername] = React.useState("");
+        const [message, setMessage] = React.useState("");
+        const [users, setUsers] = React.useState([]);
+
+        function handleChange(event) {
+          const { name, value } = event.target;
+          if (name === "username") {
+            setUsername(value.toUpperCase());
+            setMessage("");
+          }
+        }
+
+        function handleSubmit(event) {
+          event.preventDefault(); // première chose à faire
+
+          if (username.trim() === "") {
+            setMessage(`Attention votre champ est vide.`);
+
+            return;
+          }
+
+          if (users.includes(username) == true) {
+            setMessage(
+               `Attention l'utilisateur ${username} existe déjà dans la liste.`,
+            );
+
+            return;
+          }
+
+          users.push(username);
+          const message = "Merci pour votre ajout";
+          setUsers(users);
+          setMessage('');
+          setUsername('');
+        }
+
+        return (
+          <React.Fragment>
+            {message && <p>{message}</p>}
+            <form onSubmit={handleSubmit}>
+              <label>
+                Username:
+                <input
+                  name="username"
+                  type="text"
+                  value={username}
+                  onChange={handleChange}
+                />
+              </label>
+              <input type="submit" value="Add" />
+            </form>
+            {users.length > 0 && <Users users={users} />}
+          </React.Fragment>
+        );
+      }
+      // Rendu dans le DOM
+      const container = document.getElementById("root");
+      const root = ReactDOM.createRoot(container);
+      root.render(<Form />);
+    </script>
+  </body>
+</html>
